@@ -80,8 +80,8 @@ class Plugin
     {
 
         $admin = new Admin($this->getPluginName(), $this->getVersion());
-        $this->loader->add_action('admin_enqueue_scripts', $admin, 'enqueueStyles');
-        $this->loader->add_action('admin_enqueue_scripts', $admin, 'enqueueScripts');
+        // $this->loader->add_action('admin_enqueue_scripts', $admin, 'enqueueStyles');
+        // $this->loader->add_action('admin_enqueue_scripts', $admin, 'enqueueScripts');
     }
 
     /**
@@ -92,8 +92,8 @@ class Plugin
     private function defineFrontendHooks()
     {
         $frontend = new Frontend($this->getPluginName(), $this->getVersion());
-        $this->loader->add_action('wp_enqueue_scripts', $frontend, 'enqueueStyles');
-        $this->loader->add_action('wp_enqueue_scripts', $frontend, 'enqueueScripts');
+        // $this->loader->add_action('wp_enqueue_scripts', $frontend, 'enqueueStyles');
+        // $this->loader->add_action('wp_enqueue_scripts', $frontend, 'enqueueScripts');
     }
 
     /**
