@@ -1,0 +1,15 @@
+{
+    "name": "tombroucke/plugin-boilerplate",
+    "autoload": {
+        "psr-4": {
+            "Otomaties\\PluginBoilerplate\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tom Broucke",
+            "email": "tom@tombroucke.be"
+        }
+    ],
+    "require": {}
+}
