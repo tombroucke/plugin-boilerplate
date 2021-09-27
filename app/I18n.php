@@ -22,7 +22,7 @@ class I18n
     {
 
         load_plugin_textdomain(
-            'plugin-name',
+            'plugin-boilerplate',
             false,
             dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
         );
