@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "rm -r public/* && webpack --mode development --watch",
-    "build": "rm -r public/* && webpack --mode production"
+    "start": "rm -rf public/* && webpack --mode development --watch",
+    "build": "rm -rf public/* && webpack --mode production"
   },
   "repository": "git@github.com:tombroucke/plugin-boilerplate.git",
   "author": "Tom Broucke <tom@tombroucke.be>",
