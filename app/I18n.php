@@ -20,11 +20,6 @@ class I18n
      */
     public function loadTextdomain()
     {
-
-        load_plugin_textdomain(
-            'plugin-boilerplate',
-            false,
-            dirname(dirname(plugin_basename(__FILE__))) . '/languages/'
-        );
+        load_plugin_textdomain('plugin-boilerplate', false, dirname(plugin_basename(__FILE__), 2) . '/languages/');
     }
 }
