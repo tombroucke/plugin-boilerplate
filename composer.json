@@ -21,7 +21,7 @@
         ]
     },
     "require": {
-        "php": ">=8",
+        "php": ">=7",
         "tombroucke/wp-models": "^1.0",
         "stoutlogic/acf-builder": "^1.12"
     }
