@@ -1,5 +1,6 @@
 {
     "name": "tombroucke/plugin-boilerplate",
+    "description" : "Boilerplate for WordPress plugins",
     "autoload": {
         "psr-4": {
             "Otomaties\\PluginBoilerplate\\": "app/"
@@ -20,6 +21,7 @@
         ]
     },
     "require": {
+        "php": ">=8",
         "tombroucke/wp-models": "^1.0",
         "stoutlogic/acf-builder": "^1.12"
     }
