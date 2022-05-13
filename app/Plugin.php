@@ -54,6 +54,7 @@ class Plugin
         $this->setLocale();
         $this->defineAdminHooks();
         $this->defineFrontendHooks();
+        $this->definePostTypeHooks();
     }
 
     /**
@@ -68,7 +69,7 @@ class Plugin
 
         $plugin_i18n = new I18n();
 
-        $this->loader->add_action('plugins_loaded', $plugin_i18n, 'loadTextdomain');
+        $this->loader->addAction('plugins_loaded', $plugin_i18n, 'loadTextdomain');
     }
 
     /**
@@ -80,8 +81,8 @@ class Plugin
     {
 
         $admin = new Admin($this->getPluginName(), $this->getVersion());
-        $this->loader->add_action('admin_enqueue_scripts', $admin, 'enqueueStyles');
-        $this->loader->add_action('admin_enqueue_scripts', $admin, 'enqueueScripts');
+        $this->loader->addAction('admin_enqueue_scripts', $admin, 'enqueueStyles');
+        $this->loader->addAction('admin_enqueue_scripts', $admin, 'enqueueScripts');
     }
 
     /**
@@ -92,8 +93,15 @@ class Plugin
     private function defineFrontendHooks()
     {
         $frontend = new Frontend($this->getPluginName(), $this->getVersion());
-        $this->loader->add_action('wp_enqueue_scripts', $frontend, 'enqueueStyles');
-        $this->loader->add_action('wp_enqueue_scripts', $frontend, 'enqueueScripts');
+        $this->loader->addAction('wp_enqueue_scripts', $frontend, 'enqueueStyles');
+        $this->loader->addAction('wp_enqueue_scripts', $frontend, 'enqueueScripts');
+    }
+
+    private function definePostTypeHooks()
+    {
+        $cpts = new CustomPostTypes();
+        $this->loader->addAction('init', $cpts, 'addStories');
+        $this->loader->addAction('acf/init', $cpts, 'addStoryFields');
     }
 
     /**
@@ -116,7 +124,8 @@ class Plugin
         return $this->loader;
     }
 
-    public function getPluginName() {
+    public function getPluginName()
+    {
         return $this->pluginName;
     }
 

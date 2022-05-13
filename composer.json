@@ -11,5 +11,16 @@
             "email": "tom@tombroucke.be"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.6"
+    },
+    "scripts": {
+        "test": [
+            "phpcs --standard=PSR2 app"
+        ]
+    },
+    "require": {
+        "tombroucke/wp-models": "^1.0",
+        "stoutlogic/acf-builder": "^1.12"
+    }
 }
