@@ -12,13 +12,11 @@ namespace Otomaties\PluginBoilerplate;
 
 class I18n
 {
-
-
     /**
      * Load the plugin text domain for translation.
      *
      */
-    public function loadTextdomain()
+    public function loadTextdomain() : void
     {
         load_plugin_textdomain('plugin-boilerplate', false, dirname(plugin_basename(__FILE__), 2) . '/languages/');
     }

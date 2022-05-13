@@ -45,7 +45,7 @@ class Plugin
      * the public-facing side of the site.
      *
      */
-    public function __construct($pluginData)
+    public function __construct(array $pluginData)
     {
         $this->version = $pluginData['Version'];
         $this->pluginName = $pluginData['pluginName'];
@@ -64,11 +64,9 @@ class Plugin
      * with WordPress.
      *
      */
-    private function setLocale()
+    private function setLocale() : void
     {
-
         $plugin_i18n = new I18n();
-
         $this->loader->addAction('plugins_loaded', $plugin_i18n, 'loadTextdomain');
     }
 
@@ -77,9 +75,8 @@ class Plugin
      * of the plugin.
      *
      */
-    private function defineAdminHooks()
+    private function defineAdminHooks() : void
     {
-
         $admin = new Admin($this->getPluginName(), $this->getVersion());
         $this->loader->addAction('admin_enqueue_scripts', $admin, 'enqueueStyles');
         $this->loader->addAction('admin_enqueue_scripts', $admin, 'enqueueScripts');
@@ -90,14 +87,14 @@ class Plugin
      * of the plugin.
      *
      */
-    private function defineFrontendHooks()
+    private function defineFrontendHooks() : void
     {
         $frontend = new Frontend($this->getPluginName(), $this->getVersion());
         $this->loader->addAction('wp_enqueue_scripts', $frontend, 'enqueueStyles');
         $this->loader->addAction('wp_enqueue_scripts', $frontend, 'enqueueScripts');
     }
 
-    private function definePostTypeHooks()
+    private function definePostTypeHooks() : void
     {
         $cpts = new CustomPostTypes();
         $this->loader->addAction('init', $cpts, 'addStories');
@@ -108,7 +105,7 @@ class Plugin
      * Run the loader to execute all of the hooks with WordPress.
      *
      */
-    public function run()
+    public function run() : void
     {
         $this->loader->run();
     }
@@ -119,12 +116,12 @@ class Plugin
      * @since     1.0.0
      * @return    Loader    Orchestrates the hooks of the plugin.
      */
-    public function getLoader()
+    public function getLoader() : Loader
     {
         return $this->loader;
     }
 
-    public function getPluginName()
+    public function getPluginName() : string
     {
         return $this->pluginName;
     }
@@ -135,7 +132,7 @@ class Plugin
      * @since     1.0.0
      * @return    string    The version number of the plugin.
      */
-    public function getVersion()
+    public function getVersion() : string
     {
         return $this->version;
     }

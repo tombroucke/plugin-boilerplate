@@ -18,7 +18,7 @@ class Deactivator
      * Long Description.
      *
      */
-    public static function deactivate()
+    public static function deactivate() : void
     {
     }
 }

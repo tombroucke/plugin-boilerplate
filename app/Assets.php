@@ -11,7 +11,7 @@ namespace Otomaties\PluginBoilerplate;
 
 class Assets
 {
-    public static function find(string $filename)
+    public static function find(string $filename) : string
     {
         $filename = rtrim(ltrim($filename, '/'), '/');
         $publicPath = plugins_url('public/', dirname(__FILE__));

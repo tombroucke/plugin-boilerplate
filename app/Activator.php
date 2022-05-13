@@ -18,7 +18,7 @@ class Activator
      * Long Description.
      *
      */
-    public static function activate()
+    public static function activate() : void
     {
     }
 }
