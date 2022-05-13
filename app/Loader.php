@@ -19,14 +19,14 @@ class Loader
      *
      * @var      array    $actions    The actions registered with WordPress to fire when the plugin loads.
      */
-    protected $actions;
+    protected array $actions;
 
     /**
      * The array of filters registered with WordPress.
      *
      * @var      array    $filters    The filters registered with WordPress to fire when the plugin loads.
      */
-    protected $filters;
+    protected array $filters;
 
     /**
      * Initialize the collections used to maintain the actions and filters.
@@ -34,7 +34,6 @@ class Loader
      */
     public function __construct()
     {
-
         $this->actions = array();
         $this->filters = array();
     }
@@ -48,8 +47,13 @@ class Loader
      * @param int $priority Optional. The priority at which the function should be fired. Default is 10.
      * @param int $accepted_args Optional. The number of arguments that should be passed to the $callback. Default is 1.
      */
-    public function addAction($hook, $component, $callback, $priority = 10, $accepted_args = 1)
-    {
+    public function addAction(
+        string $hook,
+        object $component,
+        string $callback,
+        int $priority = 10,
+        int $accepted_args = 1
+    ) : void {
         $this->actions = $this->add($this->actions, $hook, $component, $callback, $priority, $accepted_args);
     }
 
@@ -62,8 +66,13 @@ class Loader
      * @param int $priority Optional. The priority at which the function should be fired. Default is 10.
      * @param int $accepted_args Optional. The number of arguments that should be passed to the $callback. Default is 1
      */
-    public function addFilter($hook, $component, $callback, $priority = 10, $accepted_args = 1)
-    {
+    public function addFilter(
+        string $hook,
+        object $component,
+        string $callback,
+        int $priority = 10,
+        int $accepted_args = 1
+    ) : void {
         $this->filters = $this->add($this->filters, $hook, $component, $callback, $priority, $accepted_args);
     }
 
@@ -79,8 +88,14 @@ class Loader
      * @param int $accepted_args The number of arguments that should be passed to the $callback.
      * @return array The collection of actions and filters registered with WordPress.
      */
-    private function add($hooks, $hook, $component, $callback, $priority, $accepted_args)
-    {
+    private function add(
+        array $hooks,
+        string $hook,
+        object $component,
+        string $callback,
+        int $priority,
+        int $accepted_args
+    ) : array {
 
         $hooks[] = array(
             'hook'          => $hook,
@@ -97,7 +112,7 @@ class Loader
      * Register the filters and actions with WordPress.
      *
      */
-    public function run()
+    public function run() : void
     {
 
         foreach ($this->filters as $hook) {
