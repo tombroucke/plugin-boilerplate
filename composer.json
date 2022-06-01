@@ -1,6 +1,7 @@
 {
     "name": "tombroucke/plugin-boilerplate",
     "description" : "Boilerplate for WordPress plugins",
+    "license": "GNU GPLv3",
     "autoload": {
         "psr-4": {
             "Otomaties\\PluginBoilerplate\\": "app/"
