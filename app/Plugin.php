@@ -33,7 +33,7 @@ class Plugin
     /**
      * The name of the plugin
      *
-     * @var [type]
+     * @var string
      */
     protected $pluginName;
 
@@ -44,6 +44,8 @@ class Plugin
      * Load the dependencies, define the locale, and set the hooks for the admin area and
      * the public-facing side of the site.
      *
+     *
+     * @param array<string, mixed> $pluginData
      */
     public function __construct(array $pluginData)
     {
@@ -89,7 +91,7 @@ class Plugin
      */
     private function defineFrontendHooks() : void
     {
-        $frontend = new Frontend($this->getPluginName(), $this->getVersion());
+        $frontend = new Frontend($this->getPluginName());
         $this->loader->addAction('wp_enqueue_scripts', $frontend, 'enqueueStyles');
         $this->loader->addAction('wp_enqueue_scripts', $frontend, 'enqueueScripts');
     }

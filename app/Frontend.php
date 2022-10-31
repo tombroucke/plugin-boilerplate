@@ -17,9 +17,8 @@ class Frontend
      * Initialize the class and set its properties.
      *
      * @param      string    $pluginName       The name of the plugin.
-     * @param      string    $version    The version of this plugin.
      */
-    public function __construct(private string $pluginName, private string $version)
+    public function __construct(private string $pluginName)
     {
     }
 
