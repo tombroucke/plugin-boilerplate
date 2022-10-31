@@ -28,7 +28,7 @@ class Frontend
      */
     public function enqueueStyles() : void
     {
-        wp_enqueue_style($this->pluginName, Assets::find('css/main.css'), array(), null);
+        wp_enqueue_style($this->pluginName, Assets::find('css/main.css'), [], null);
     }
 
     /**
@@ -37,6 +37,6 @@ class Frontend
      */
     public function enqueueScripts() : void
     {
-        wp_enqueue_script($this->pluginName, Assets::find('js/main.js'), array( 'jquery' ), null);
+        wp_enqueue_script($this->pluginName, Assets::find('js/main.js'), [], null, true);
     }
 }

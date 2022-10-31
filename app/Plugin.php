@@ -79,7 +79,7 @@ class Plugin
      */
     private function defineAdminHooks() : void
     {
-        $admin = new Admin($this->getPluginName(), $this->getVersion());
+        $admin = new Admin($this->getPluginName());
         $this->loader->addAction('admin_enqueue_scripts', $admin, 'enqueueStyles');
         $this->loader->addAction('admin_enqueue_scripts', $admin, 'enqueueScripts');
     }

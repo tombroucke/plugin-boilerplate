@@ -1,1 +1,1 @@
-{"version":1,"defects":{"StoryTest::testCanBeCreatedFromString":4},"times":{"StoryTest::testCanBeCreatedFromString":0.002,"StoryTest::testPostTypeIsCorrect":0}}
+{"version":1,"defects":{"StoryTest::testCanBeCreatedFromString":4},"times":{"StoryTest::testCanBeCreatedFromString":0.001,"StoryTest::testPostTypeIsCorrect":0}}
