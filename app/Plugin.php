@@ -1,141 +1,129 @@
-<?php
+<?php 
 
 namespace Otomaties\PluginBoilerplate;
 
-/**
- * The core plugin class.
- *
- * This is used to define internationalization, admin-specific hooks, and
- * public-facing site hooks.
- *
- * Also maintains the unique identifier of this plugin as well as the current
- * version of the plugin.
- */
+use Illuminate\Support\Str;
+use Illuminate\Container\Container;
+use Otomaties\PluginBoilerplate\Modules\Admin;
+use Otomaties\PluginBoilerplate\Helpers\Config;
+use Otomaties\PluginBoilerplate\Helpers\Loader;
+use Otomaties\PluginBoilerplate\Modules\Frontend;
+use Otomaties\PluginBoilerplate\Command\CommandRegistrar;
 
-class Plugin
+class Plugin extends Container
 {
+    private array $modules = [
+        Frontend::class,
+        Admin::class,
+    ];
 
-    /**
-     * The loader that's responsible for maintaining and registering all hooks that power
-     * the plugin.
-     *
-     * @var      Loader    $loader    Maintains and registers all hooks for the plugin.
-     */
-    protected $loader;
-
-    /**
-     * The current version of the plugin.
-     *
-     * @var      string    $version    The current version of the plugin.
-     */
-    protected $version;
-
-    /**
-     * The name of the plugin
-     *
-     * @var string
-     */
-    protected $pluginName;
-
-    /**
-     * Define the core functionality of the plugin.
-     *
-     * Set the plugin name and the plugin version that can be used throughout the plugin.
-     * Load the dependencies, define the locale, and set the hooks for the admin area and
-     * the public-facing side of the site.
-     *
-     *
-     * @param array<string, mixed> $pluginData
-     */
-    public function __construct(array $pluginData)
-    {
-        $this->version = $pluginData['Version'];
-        $this->pluginName = $pluginData['pluginName'];
-        $this->loader = new Loader();
-
-        $this->setLocale();
-        $this->defineAdminHooks();
-        $this->defineFrontendHooks();
-        $this->definePostTypeHooks();
+    public function __construct(
+        private Loader $loader,
+        private Config $config
+    ) {
     }
 
-    /**
-     * Define the locale for this plugin for internationalization.
-     *
-     * Uses the i18n class in order to set the domain and to register the hook
-     * with WordPress.
-     *
-     */
-    private function setLocale() : void
+    public function config(string $key) : mixed
     {
-        $plugin_i18n = new I18n();
-        $this->loader->addAction('plugins_loaded', $plugin_i18n, 'loadTextdomain');
+        return $this->config->get($key);
     }
 
-    /**
-     * Register all of the hooks related to the admin-facing functionality
-     * of the plugin.
-     *
-     */
-    private function defineAdminHooks() : void
+    public function initialize() : self
     {
-        $admin = new Admin($this->getPluginName());
-        $this->loader->addAction('admin_enqueue_scripts', $admin, 'enqueueStyles');
-        $this->loader->addAction('admin_enqueue_scripts', $admin, 'enqueueScripts');
+        $this->loader->addAction('init', $this, 'loadTextDomain');
+
+        $this->loadModules();
+        $this->initCommands();
+        $this->initPostTypes();
+        $this->initOptionsPages();
+
+        return $this;
     }
 
-    /**
-     * Register all of the hooks related to the public-facing functionality
-     * of the plugin.
-     *
-     */
-    private function defineFrontendHooks() : void
+    private function initCommands()
     {
-        $frontend = new Frontend($this->getPluginName());
-        $this->loader->addAction('wp_enqueue_scripts', $frontend, 'enqueueStyles');
-        $this->loader->addAction('wp_enqueue_scripts', $frontend, 'enqueueScripts');
+        $this->make(CommandRegistrar::class)
+            ->register();
     }
 
-    private function definePostTypeHooks() : void
+    private function initPostTypes()
     {
-        $cpts = new CustomPostTypes();
-        $this->loader->addAction('init', $cpts, 'addStories');
-        $this->loader->addAction('acf/init', $cpts, 'addStoryFields');
+        collect([
+            'PostTypes',
+            'Taxonomies',
+        ])->each(function ($registerableClassPath) {
+            $this
+                ->collectFilesIn("$registerableClassPath")
+                ->each(function ($filename) {
+                    $className = $this->namespacedClassNameFromFilename($filename);
+                    $this->loader->addAction('init', new $className(), 'register');
+                });
+        });
     }
 
-    /**
-     * Run the loader to execute all of the hooks with WordPress.
-     *
-     */
-    public function run() : void
+    private function initOptionsPages()
     {
-        $this->loader->run();
+        $this
+            ->collectFilesIn('OptionsPages')
+            ->each(function ($filename) {
+                $className = $this->namespacedClassNameFromFilename($filename);
+                $this->loader->addAction('acf/init', new $className(), 'register');
+            });
     }
 
-    /**
-     * The reference to the class that orchestrates the hooks with the plugin.
-     *
-     * @since     1.0.0
-     * @return    Loader    Orchestrates the hooks of the plugin.
-     */
+    private function loadModules() : self
+    {
+        collect($this->modules)
+            ->each(function ($className) {
+                ($this->make($className))
+                    ->init();
+            });
+        return $this;
+    }
+
+    public function loadTextDomain() : void
+    {
+        load_plugin_textdomain(
+            'plugin-boilerplate',
+            false,
+            basename($this->config('paths.base')) . '/resources/languages'
+        );
+    }
+
     public function getLoader() : Loader
     {
         return $this->loader;
     }
 
-    public function getPluginName() : string
+    public function runLoader() : void
     {
-        return $this->pluginName;
+        apply_filters('plugin_boilerplate_loader', $this->getLoader())
+            ->run();
     }
-
-    /**
-     * Retrieve the version number of the plugin.
-     *
-     * @since     1.0.0
-     * @return    string    The version number of the plugin.
-     */
-    public function getVersion() : string
+    
+    private function collectFilesIn($path)
     {
-        return $this->version;
+        $fullPath = $this->config('paths.app') . "/$path";
+        return collect(array_merge(
+            glob("$fullPath/*.php"),
+            glob("$fullPath/**/*.php")
+        ))
+        ->reject(function ($filename) {
+            return Str::contains($filename, 'Example');
+        })
+        ->reject(function ($filename) {
+            return Str::contains($filename, '/Abstracts') || Str::contains($filename, '/Traits') || Str::contains($filename, '/Contracts');
+        });
+    }
+    
+    private function namespacedClassNameFromFilename($filename)
+    {
+        return Str::of($filename)
+            ->replace($this->config('paths.app'), '')
+            ->ltrim('/')
+            ->replace('/', '\\')
+            ->rtrim('.php')
+            ->prepend('\\' . __NAMESPACE__. '\\')
+            ->__toString();
     }
 }

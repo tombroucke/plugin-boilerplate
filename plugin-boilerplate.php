@@ -1,6 +1,10 @@
 <?php
 
-namespace Otomaties\PluginBoilerplate;
+use Otomaties\PluginBoilerplate\Plugin;
+use Otomaties\PluginBoilerplate\Helpers\View;
+use Otomaties\PluginBoilerplate\Helpers\Assets;
+use Otomaties\PluginBoilerplate\Helpers\Config;
+use Otomaties\PluginBoilerplate\Helpers\Loader;
 
 /**
  * Plugin Name:       WordPress Plugin Boilerplate
@@ -12,39 +16,47 @@ namespace Otomaties\PluginBoilerplate;
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       plugin-boilerplate
- * Domain Path:       /languages
+ * Domain Path:       /resources/languages
  */
-
-// If this file is called directly, abort.
-if (! defined('WPINC')) {
-    die;
-}
-
-// Autoload files
-if (file_exists(__DIR__ . '/vendor/autoload.php')) {
-    require_once realpath(__DIR__ . '/vendor/autoload.php');
-}
-
-// Setup / teardown
-register_activation_hook(__FILE__, '\\Otomaties\\PluginBoilerplate\\Activator::activate');
-register_deactivation_hook(__FILE__, '\\Otomaties\\PluginBoilerplate\\Deactivator::deactivate');
 
 /**
- * Begins execution of the plugin.
+ * Get main plugin class instance
  *
- * Since everything within the plugin is registered via hooks,
- * then kicking off the plugin from this point in the file does
- * not affect the page life cycle.
+ * @return Plugin
  */
-function init()
+function pluginBoilerplate()
 {
-    if (! function_exists('get_plugin_data')) {
-        require_once(ABSPATH . 'wp-admin/includes/plugin.php');
-    }
-    $pluginData = \get_plugin_data(__FILE__);
-    $pluginData['pluginName'] = basename(__FILE__, '.php');
+    static $plugin;
 
-    $plugin = new Plugin($pluginData);
-    $plugin->run();
+    if (!$plugin) {
+        $plugin = new Plugin(
+            new Loader(),
+            new Config()
+        );
+        do_action('koifarm_auction_functionality', $plugin);
+    }
+
+    return $plugin;
 }
-init();
+
+// Bind the class to the service container
+add_action('koifarm_auction_functionality', function ($plugin) {
+    $plugin->bind(Loader::class, function ($plugin) {
+        return $plugin->getLoader();
+    });
+    $plugin->bind(View::class, function ($plugin) {
+        return new View($plugin->config('paths.views'));
+    });
+    $plugin->bind(Assets::class, function ($plugin) {
+        return new Assets($plugin->config('paths.public'));
+    });
+}, 10);
+
+// Initialize the plugin and run the loader
+add_action('koifarm_auction_functionality', function ($plugin) {
+    $plugin
+        ->initialize()
+        ->runLoader();
+}, 9999);
+
+pluginBoilerplate();

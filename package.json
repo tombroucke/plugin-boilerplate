@@ -1,34 +1,15 @@
 {
-  "name": "plugin-boilerplate",
-  "version": "1.1.0",
-  "main": "webpack.config.js",
-  "scripts": {
-    "start": "rm -rf public/* && webpack --mode development --watch",
-    "build": "rm -rf public/* && webpack --mode production"
-  },
-  "repository": "git@github.com:tombroucke/plugin-boilerplate.git",
-  "author": "Tom Broucke <tom@tombroucke.be>",
-  "license": "MIT",
-  "dependencies": {
-    "css-minimizer-webpack-plugin": "^4.2.2"
-  },
-  "devDependencies": {
-    "assets-webpack-plugin": "^7.1.1",
-    "browser-sync": "^2.27.10",
-    "browser-sync-webpack-plugin": "^2.3.0",
-    "css-loader": "^6.7.1",
-    "mini-css-extract-plugin": "^2.6.1",
-    "postcss-loader": "^7.0.1",
-    "postcss-scss": "^4.0.5",
-    "sass": "^1.55.0",
-    "sass-loader": "^13.1.0",
-    "style-loader": "^3.3.1",
-    "stylelint": "^14.14.0",
-    "stylelint-order": "^5.0.0",
-    "stylelint-scss": "^4.3.0",
-    "stylelint-webpack-plugin": "^3.3.0",
-    "terser-webpack-plugin": "^5.3.6",
-    "webpack": "^5.74.0",
-    "webpack-cli": "^4.10.0"
-  }
+	"devDependencies": {
+		"@roots/bud": "^6.20.0",
+		"@roots/bud-eslint": "^6.20.0",
+		"@roots/bud-preset-recommend": "^6.20.0",
+		"@roots/bud-sass": "^6.20.0",
+		"@roots/eslint-config": "^6.20.0"
+	},
+	"type": "module",
+	"dependencies": {
+		"@roots/bud-preset-wordpress": "^6.20.0",
+		"@roots/sage": "^6.20.0",
+		"flatpickr": "^4.6.13"
+	}
 }
