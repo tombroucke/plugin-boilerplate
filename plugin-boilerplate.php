@@ -33,14 +33,14 @@ function pluginBoilerplate()
             new Loader(),
             new Config()
         );
-        do_action('koifarm_auction_functionality', $plugin);
+        do_action('plugin_boilerplate_functionality', $plugin);
     }
 
     return $plugin;
 }
 
 // Bind the class to the service container
-add_action('koifarm_auction_functionality', function ($plugin) {
+add_action('plugin_boilerplate_functionality', function ($plugin) {
     $plugin->bind(Loader::class, function ($plugin) {
         return $plugin->getLoader();
     });
@@ -53,7 +53,7 @@ add_action('koifarm_auction_functionality', function ($plugin) {
 }, 10);
 
 // Initialize the plugin and run the loader
-add_action('koifarm_auction_functionality', function ($plugin) {
+add_action('plugin_boilerplate_functionality', function ($plugin) {
     $plugin
         ->initialize()
         ->runLoader();
