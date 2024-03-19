@@ -7,7 +7,7 @@ use Otomaties\PluginBoilerplate\Helpers\Labels;
 use Otomaties\PluginBoilerplate\Taxonomies\Contracts\Taxonomy;
 use Otomaties\PluginBoilerplate\Exceptions\ExtendedCptsNotInstalledException;
 
-class Genre implements Taxonomy
+class GenreExample implements Taxonomy
 {
     const TAXONOMY = 'genre';
     const POST_TYPE = 'book';
