@@ -6,7 +6,7 @@ use Otomaties\PluginBoilerplate\OptionsPages\Abstracts\OptionsPage as AbstractsO
 use Otomaties\PluginBoilerplate\OptionsPages\Contracts\OptionsPage;
 use StoutLogic\AcfBuilder\FieldsBuilder;
 
-class Options extends AbstractsOptionsPage implements OptionsPage
+class OptionsExample extends AbstractsOptionsPage implements OptionsPage
 {
     protected string $slug = 'plugin-boilerplate-settings';
 
