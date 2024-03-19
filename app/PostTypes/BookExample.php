@@ -7,7 +7,7 @@ use Otomaties\PluginBoilerplate\Helpers\Labels;
 use Otomaties\PluginBoilerplate\PostTypes\Contracts\PostType;
 use Otomaties\PluginBoilerplate\Exceptions\ExtendedCptsNotInstalledException;
 
-class Book implements PostType
+class BookExample implements PostType
 {
     const POST_TYPE = 'book';
 
