@@ -18,8 +18,8 @@ class GenreExample implements Taxonomy
             throw new ExtendedCptsNotInstalledException();
         }
 
-        $taxonomySingularName = __('Genre', 'functionality-plugin');
-        $taxonomyPluralName = __('Genres', 'functionality-plugin');
+        $taxonomySingularName = __('Genre', 'plugin-boilerplate');
+        $taxonomyPluralName = __('Genres', 'plugin-boilerplate');
 
         $args = [
             'meta_box' => 'radio', // can be null, 'simple', 'radio', 'dropdown'

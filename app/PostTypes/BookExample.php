@@ -17,8 +17,8 @@ class BookExample implements PostType
             throw new ExtendedCptsNotInstalledException();
         }
 
-        $postSingularName = __('Book', 'functionality-plugin');
-        $postPluralName = __('Books', 'functionality-plugin');
+        $postSingularName = __('Book', 'plugin-boilerplate');
+        $postPluralName = __('Books', 'plugin-boilerplate');
 
         $args = [
             'show_in_feed' => true,
@@ -28,7 +28,7 @@ class BookExample implements PostType
             'dashboard_activity' => true,
             'admin_cols' => [
                 'book_featured_image' => [
-                        'title'          => __('Illustration', 'functionality-plugin'),
+                        'title'          => __('Illustration', 'plugin-boilerplate'),
                     'featured_image' => 'thumbnail',
                 ],
                 'book_published' => [
