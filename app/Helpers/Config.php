@@ -13,7 +13,7 @@ class Config extends Repository
 
     private function loadConfig() : array
     {
-        return collect(glob(plugin_dir_path(__FILE__) . '../../config/*.php'))
+        return collect(glob(dirname(__DIR__, 2) . '/config/*.php'))
             ->mapWithKeys(function ($configFile) {
                 $key = basename($configFile, '.php');
                 return [$key => require $configFile];
