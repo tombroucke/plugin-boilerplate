@@ -13,12 +13,12 @@ class Config extends Repository
 
     private function loadConfig() : array
     {
-        $config = [];
-        $configFiles = glob(plugin_dir_path(__FILE__) . '../../config/*.php');
-        foreach ($configFiles as $configFile) {
-            $key = basename($configFile, '.php');
-            $config[$key] = require $configFile;
-        }
-        return $config;
+        return collect(glob(plugin_dir_path(__FILE__) . '../../config/*.php'))
+            ->mapWithKeys(function ($configFile) {
+                $key = basename($configFile, '.php');
+                return [$key => require $configFile];
+            })
+            ->toArray();
     }
 }
+
