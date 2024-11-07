@@ -12,8 +12,8 @@
         }
     ],
     "require": {
-        "illuminate/container": "^11.30",
-        "illuminate/support": "^11.30",
-        "illuminate/config": "^11.30"
+        "illuminate/container": "*",
+        "illuminate/support": "*",
+        "illuminate/config": "*"
     }
 }
