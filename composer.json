@@ -1,0 +1,19 @@
+{
+    "name": "tombroucke/plugin-boilerplate",
+    "autoload": {
+        "psr-4": {
+            "Otomaties\\PluginBoilerplate\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tom Broucke",
+            "email": "tom@tombroucke.be"
+        }
+    ],
+    "require": {
+        "illuminate/container": "^11.30",
+        "illuminate/support": "^11.30",
+        "illuminate/config": "^11.30"
+    }
+}
